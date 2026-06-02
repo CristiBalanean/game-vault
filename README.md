@@ -46,7 +46,3 @@ https://game-vault-qcl8cat0l-cristi-balanean-s-projects.vercel.app/
 ## API
 
 This project uses the [RAWG API](https://rawg.io/apidocs). You'll need a free API key if you want to run it yourself — replace the key in the fetch calls or store it in a `.env` file.
-
-## License
-
-MIT
