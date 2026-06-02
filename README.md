@@ -37,7 +37,7 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ## Live Demo
 
-https://game-vault-qcl8cat0l-cristi-balanean-s-projects.vercel.app/
+https://game-vault-tau-seven.vercel.app/
 
 ## Screenshots
 
