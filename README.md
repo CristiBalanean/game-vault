@@ -1,16 +1,52 @@
-# React + Vite
+# GameVault 🎮
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A responsive web app for discovering and exploring games, built with React and powered by the [RAWG Video Games API](https://rawg.io/apidocs).
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Browse a curated list of top-rated games
+- Search games with live suggestions as you type
+- View detailed game pages with ratings, genres, platforms, description, and system requirements
+- Pagination to browse through the full game library
+- Fully responsive — works on desktop and mobile
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **React** — UI library
+- **React Router** — client-side routing
+- **Vite** — build tool
+- **CSS Modules** — scoped component styling
+- **RAWG API** — game data
+- **Lucide React** — icons
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Prerequisites
+- Node.js installed
+
+### Installation
+
+```bash
+git clone https://github.com/cristibalanean/game-vault.git
+cd game-vault
+npm install
+npm run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+## Live Demo
+
+https://game-vault-qcl8cat0l-cristi-balanean-s-projects.vercel.app/
+
+## Screenshots
+
+> Add screenshots here after deployment
+
+## API
+
+This project uses the [RAWG API](https://rawg.io/apidocs). You'll need a free API key if you want to run it yourself — replace the key in the fetch calls or store it in a `.env` file.
+
+## License
+
+MIT
