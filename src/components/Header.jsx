@@ -2,6 +2,7 @@ import styles from './Header.module.css'
 import { Gamepad2, Search, X } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { useState, useEffect, useRef } from 'react'
+import { ADULT_TAGS } from '../constants.js'
 
 function Header({ onSearch }) {
   const navigate = useNavigate()
@@ -12,6 +13,9 @@ function Header({ onSearch }) {
   const debounceTimer = useRef(null)
   const inputRef = useRef(null)
 
+  const filterAdult = (results) =>
+    (results || []).filter(game => !game.tags?.some(tag => ADULT_TAGS.includes(tag.slug)))
+
   useEffect(() => {
     if (query.trim().length < 2) {
       setSuggestions([])
@@ -21,7 +25,7 @@ function Header({ onSearch }) {
     debounceTimer.current = setTimeout(async () => {
       const result = await fetch(`https://api.rawg.io/api/games?key=1dd4eaf9b8ca4c46b9b1e5794e348ea3&search=${query}&page_size=5`)
       const data = await result.json()
-      setSuggestions(data.results || [])
+      setSuggestions(filterAdult(data.results))
     }, 400)
     return () => clearTimeout(debounceTimer.current)
   }, [query])
@@ -45,7 +49,7 @@ function Header({ onSearch }) {
 
   const handleSearchIconClick = () => {
     setSearchExpanded(true)
-    setTimeout(() => inputRef.current?.focus(), 50) // wait for CSS transition
+    setTimeout(() => inputRef.current?.focus(), 50)
   }
 
   const handleCollapse = () => {
@@ -83,7 +87,7 @@ function Header({ onSearch }) {
                 if (query.trim().length >= 2) {
                   fetch(`https://api.rawg.io/api/games?key=1dd4eaf9b8ca4c46b9b1e5794e348ea3&search=${query}&page_size=5`)
                     .then(res => res.json())
-                    .then(data => setSuggestions(data.results || []))
+                    .then(data => setSuggestions(filterAdult(data.results)))
                 }
               }}
             />
