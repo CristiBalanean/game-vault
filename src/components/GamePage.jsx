@@ -14,7 +14,7 @@ function GamePage() {
             .then(async data => {
                 setGame(data)
 
-                const steamRes = await fetch(`https://game-vault-api-cq77.onrender.com/api/steam/${steamId}`)
+                const storesRes = await fetch(`https://api.rawg.io/api/games/${id}/stores?key=1dd4eaf9b8ca4c46b9b1e5794e348ea3`)
                 const storesData = await storesRes.json()
 
                 const steamStore = storesData.results?.find(s => s.store_id === 1)
@@ -22,7 +22,7 @@ function GamePage() {
 
                 if (steamId) {
                     try {
-                        const steamRes = await fetch(`http://localhost:3001/api/steam/${steamId}`)
+                        const steamRes = await fetch(`https://game-vault-api-cq77.onrender.com/api/steam/${steamId}`)
                         const steamParsed = await steamRes.json()
                         if (steamParsed[steamId]?.success) {
                             setSteamData(steamParsed[steamId].data)
