@@ -8,7 +8,6 @@ import { ADULT_TAGS } from './constants.js'
 
 const orderings = ['-rating', '-added', '-metacritic', '-released']
 const randomOrdering = orderings[Math.floor(Math.random() * orderings.length)]
-const ADULT_TAGS = ['nsfw', 'adult', 'hentai', 'nudity', 'sexual-content', '18+', 'eroge', 'porn']
 
 function App() {
 

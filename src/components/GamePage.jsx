@@ -1,14 +1,23 @@
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import styles from './GamePage.module.css'
+import GamePageSkeleton from './GamePageSkeleton.jsx'
 
 function GamePage() {
     const { id } = useParams()
+    const navigate = useNavigate()
     const [game, setGame] = useState(null)
     const [steamData, setSteamData] = useState(null)
     const [selectedScreenshot, setSelectedScreenshot] = useState(null)
+    const [similarGames, setSimilarGames] = useState([])
 
     useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+        setGame(null)
+        setSteamData(null)
+        setSimilarGames([])
+        setSelectedScreenshot(null)
+
         fetch(`https://api.rawg.io/api/games/${id}?key=1dd4eaf9b8ca4c46b9b1e5794e348ea3`)
             .then(res => res.json())
             .then(async data => {
@@ -31,10 +40,18 @@ function GamePage() {
                         console.log('Steam error:', err)
                     }
                 }
+
+                try {
+                    const suggestedRes = await fetch(`https://api.rawg.io/api/games/${id}/game-series?key=1dd4eaf9b8ca4c46b9b1e5794e348ea3&page_size=6`)
+                    const suggestedData = await suggestedRes.json()
+                    setSimilarGames(suggestedData.results || [])
+                } catch (err) {
+                    console.log('Suggested games error:', err)
+                }
             })
     }, [id])
 
-    if (!game) return <p style={{ textAlign: 'center', padding: '60px', color: '#aaa', fontSize: '18px' }}>Loading...</p>
+    if (!game) return <GamePageSkeleton />
 
     const parseRequirements = (text) => {
         if (!text) return {}
@@ -70,10 +87,32 @@ function GamePage() {
 
     return (
         <div className={styles.page}>
-            {game.background_image
-                ? <img className={styles.image} alt={game.name} src={game.background_image} />
-                : <div className={styles.imagePlaceholder}>🎮 No image available</div>
-            }
+            <div className={styles.leftColumn}>
+                {game.background_image
+                    ? <img className={styles.image} alt={game.name} src={game.background_image} />
+                    : <div className={styles.imagePlaceholder}>🎮 No image available</div>
+                }
+                {similarGames.length > 0 && (
+                    <div className={styles.similarSection}>
+                        <h3 className={styles.similarTitle}>Similar Games</h3>
+                        <div className={styles.similarGrid}>
+                            {similarGames.map(g => (
+                                <div key={g.id} className={styles.similarCard} onClick={() => navigate(`/game/${g.id}`)}>
+                                    {g.background_image
+                                        ? <img src={g.background_image} alt={g.name} className={styles.similarImage} />
+                                        : <div className={styles.similarImagePlaceholder}>🎮</div>
+                                    }
+                                    <div className={styles.similarInfo}>
+                                        <p className={styles.similarName}>{g.name}</p>
+                                        <p className={styles.similarRating}>⭐ {g.rating || 'N/A'}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+            </div>
+
             <div className={styles.content}>
                 <h1 className={styles.title}>{game.name}</h1>
                 <div className={styles.ratingRow}>

@@ -1,0 +1,139 @@
+@keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.shimmer {
+    background: linear-gradient(90deg, #2a2a2a 25%, #333 50%, #2a2a2a 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+    border-radius: 8px;
+}
+
+.page {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    align-items: flex-start;
+    gap: 40px;
+}
+
+.leftColumn {
+    flex-shrink: 0;
+    width: 400px;
+}
+
+.image {
+    composes: shimmer;
+    width: 100%;
+    height: 500px;
+    border-radius: 12px;
+}
+
+.content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+}
+
+.title {
+    composes: shimmer;
+    height: 48px;
+    width: 70%;
+}
+
+.ratingRow {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.ratingPill {
+    composes: shimmer;
+    height: 28px;
+    width: 60px;
+    border-radius: 999px;
+}
+
+.metacriticPill {
+    composes: shimmer;
+    height: 28px;
+    width: 120px;
+    border-radius: 4px;
+}
+
+.tags {
+    display: flex;
+    gap: 8px;
+}
+
+.tag {
+    composes: shimmer;
+    height: 28px;
+    width: 80px;
+    border-radius: 999px;
+}
+
+.tagWide {
+    composes: shimmer;
+    height: 28px;
+    width: 100px;
+    border-radius: 999px;
+}
+
+.line {
+    composes: shimmer;
+    height: 20px;
+    width: 50%;
+}
+
+.lineShort {
+    composes: shimmer;
+    height: 20px;
+    width: 30%;
+}
+
+.block {
+    composes: shimmer;
+    height: 180px;
+    border-radius: 12px;
+}
+
+.screenshotsBlock {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.screenshotThumb {
+    composes: shimmer;
+    height: 130px;
+    border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+    .page {
+        flex-direction: column;
+        padding: 16px;
+        gap: 16px;
+    }
+
+    .leftColumn {
+        width: 100%;
+    }
+
+    .image {
+        height: 300px;
+    }
+
+    .screenshotsBlock {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .title {
+        width: 90%;
+    }
+}
