@@ -1,0 +1,51 @@
+.card {
+    background: #1a1a1a;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.image {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: #2a2a2a;
+}
+
+.content {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.title {
+    height: 16px;
+    width: 70%;
+    background: #2a2a2a;
+    border-radius: 4px;
+}
+
+.line {
+    height: 12px;
+    width: 40%;
+    background: #2a2a2a;
+    border-radius: 4px;
+}
+
+.lineShort {
+    height: 12px;
+    width: 25%;
+    background: #2a2a2a;
+    border-radius: 4px;
+}
+
+
+.image, .title, .line, .lineShort {
+    background: linear-gradient(90deg, #2a2a2a 25%, #333 50%, #2a2a2a 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+}
+
+@keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
