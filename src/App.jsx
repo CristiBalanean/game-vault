@@ -29,6 +29,7 @@ function App() {
   useEffect(() => {
       const fetchData = async () => {
           setLoading(true)
+          setGames([])
           const result = await fetch(URL)
           const data = await result.json()
           const filtered = (data.results || []).filter(game =>
@@ -65,8 +66,8 @@ function App() {
               <Card
                 key={game.id}
                 title={game.name}
-                genre={game.genres[0]?.name}
-                platform={game.platforms[0]?.platform.name}
+                genre={game.genres?.[0]?.name}
+                platform={game.platforms?.[0]?.platform.name}
                 rating={game.rating}
                 image={game.background_image}
                 onClick={() => navigate(`/game/${game.id}`)}
