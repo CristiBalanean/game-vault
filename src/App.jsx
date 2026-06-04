@@ -7,9 +7,11 @@ import { useNavigate } from "react-router-dom"
 function App() {
 
   const [games, setGames] = useState([])
-  const [page, setPage] = useState(1)
+  const [page, setPage] = useState(() => Math.floor(Math.random() * 20) + 1)
   const [loading, setLoading] = useState(false)
-  const URL = `https://api.rawg.io/api/games?key=1dd4eaf9b8ca4c46b9b1e5794e348ea3&page=${page}`
+  const orderings = ['-rating', '-added', '-metacritic', '-released']
+  const [ordering] = useState(() => orderings[Math.floor(Math.random() * orderings.length)])
+  const URL = `https://api.rawg.io/api/games?key=1dd4eaf9b8ca4c46b9b1e5794e348ea3&page=${page}&ordering=${ordering}`
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -21,7 +23,7 @@ function App() {
           setLoading(false)
       }
       fetchData()
-  }, [page])
+  }, [URL])
 
     return (
       <div>
