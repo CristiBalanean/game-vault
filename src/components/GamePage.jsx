@@ -65,34 +65,43 @@ function GamePage() {
 
     const requirements = parseRequirements(
         steamData?.pc_requirements?.minimum ||
-        game.platforms.find(p => p.platform.name === 'PC')?.requirements?.minimum
+        game.platforms?.find(p => p.platform.name === 'PC')?.requirements?.minimum
     )
 
     return (
         <div className={styles.page}>
-            <img className={styles.image} alt={game.name} src={game.background_image} />
+            {game.background_image
+                ? <img className={styles.image} alt={game.name} src={game.background_image} />
+                : <div className={styles.imagePlaceholder}>🎮 No image available</div>
+            }
             <div className={styles.content}>
                 <h1 className={styles.title}>{game.name}</h1>
                 <div className={styles.ratingRow}>
-                    <span className={styles.rating}>⭐ {game.rating}</span>
-                    <span className={styles.metacritic}>Metacritic: {game.metacritic}</span>
+                    <span className={styles.rating}>⭐ {game.rating || 'N/A'}</span>
+                    {game.metacritic && <span className={styles.metacritic}>Metacritic: {game.metacritic}</span>}
                 </div>
-                <div className={styles.genres}>
-                    {game.genres.map(g => <span className={styles.genreTag} key={g.id}>{g.name}</span>)}
-                </div>
-                <div className={styles.platforms}>
-                    {game.platforms.map(p => (
-                        <span key={p.platform.id} className={styles.platformTag}>
-                            {p.platform.name}
-                        </span>
-                    ))}
-                </div>
-                <p className={styles.developer}>Developer: {game.developers.map(d => d.name).join(', ')}</p>
-                <p className={styles.released}>Released: {game.released}</p>
+                {game.genres?.length > 0 && (
+                    <div className={styles.genres}>
+                        {game.genres.map(g => <span className={styles.genreTag} key={g.id}>{g.name}</span>)}
+                    </div>
+                )}
+                {game.platforms?.length > 0 && (
+                    <div className={styles.platforms}>
+                        {game.platforms.map(p => (
+                            <span key={p.platform.id} className={styles.platformTag}>
+                                {p.platform.name}
+                            </span>
+                        ))}
+                    </div>
+                )}
+                {game.developers?.length > 0 && (
+                    <p className={styles.developer}>Developer: {game.developers.map(d => d.name).join(', ')}</p>
+                )}
+                {game.released && <p className={styles.released}>Released: {game.released}</p>}
 
                 <div className={styles.about}>
                     <h3>About</h3>
-                    <p>{about}</p>
+                    <p>{about || 'No description available for this game.'}</p>
                 </div>
 
                 {screenshots && screenshots.length > 0 && (
