@@ -1,18 +1,21 @@
 # GameVault 🎮
-
 A responsive web app for discovering and exploring games, built with React. Powered by the [RAWG API](https://rawg.io/apidocs) for game data and the [Steam API](https://store.steampowered.com/api/) for descriptions, screenshots, and system requirements.
 
 > ⚠️ **Work in Progress** — new features are actively being developed. See the roadmap below.
 
 ## Features
 
-- Browse a curated list of top-rated games
+- Browse games with a randomized ordering on every visit
+- Filter games by genre
 - Search games with live suggestions as you type
 - View detailed game pages with ratings, genres, platforms, developer info, and release date
 - Game descriptions and screenshots pulled from Steam where available
 - System requirements parsed and displayed in a clean grid
 - Screenshot lightbox — click any screenshot to view fullscreen and scroll through
+- Similar games section on each game page
+- Loading skeletons for a polished loading experience
 - Pagination to browse through the full game library
+- Adult content filtering
 - Fully responsive — works on desktop and mobile
 
 ## Tech Stack
@@ -39,7 +42,6 @@ A responsive web app for discovering and exploring games, built with React. Powe
 - Node.js installed
 
 ### Frontend
-
 ```bash
 git clone https://github.com/cristibalanean/game-vault.git
 cd game-vault
@@ -50,7 +52,6 @@ npm run dev
 Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ### Backend
-
 ```bash
 git clone https://github.com/cristibalanean/game-vault-api.git
 cd game-vault-api
@@ -66,13 +67,15 @@ Backend runs on [http://localhost:3001](http://localhost:3001).
 
 ## Roadmap
 
-- [ ] User accounts and authentication
-- [ ] Personal game backlog
-- [ ] User ratings
-- [ ] Filter games by genre
+- [x] Filter games by genre
+- [x] Similar games section on game page
+- [x] Loading skeletons
+- [ ] Game backlog / wishlist
+- [ ] Search results page
 - [ ] Sort by rating, release date, Metacritic score
-- [ ] Similar games section on game page
-- [ ] Loading skeletons
+- [ ] Platform filter
+- [ ] User accounts and authentication
+- [ ] User ratings
 
 ## API Keys
 
