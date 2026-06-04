@@ -80,6 +80,10 @@
     transition: background 0.15s;
 }
 
+.suggestion:hover {
+    background-color: #2a2a2a;
+}
+
 .suggestionImage {
     width: 56px;
     height: 36px;
@@ -88,22 +92,44 @@
     flex-shrink: 0;
 }
 
-.suggestion:hover {
-    background-color: #2a2a2a;
-}
-
 @media (max-width: 768px) {
     .searchWrapper {
+        flex: 0;
+        max-width: 44px;
+        transition: max-width 0.3s ease, flex 0.3s ease;
+    }
+
+    .searchWrapper.expanded {
         flex: 1;
-        max-width: 200px;
+        max-width: 100%;
     }
 
     .searchBar {
-        padding: 8px 12px;
+        padding: 8px 10px;
+        overflow: hidden;
+        transition: padding 0.3s ease;
     }
 
     .searchBar input {
+        width: 0;
+        opacity: 0;
+        pointer-events: none;
+        transition: width 0.3s ease, opacity 0.2s ease;
         font-size: 13px;
+    }
+
+    .searchWrapper.expanded .searchBar {
+        padding: 8px 14px;
+    }
+
+    .searchWrapper.expanded .searchBar input {
+        width: 100%;
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .searchActive .logo {
+        display: none;
     }
 
     .right {

@@ -1,5 +1,5 @@
 import styles from './Header.module.css'
-import { Gamepad2, Search } from 'lucide-react'
+import { Gamepad2, Search, X } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { useState, useEffect, useRef } from 'react'
 
@@ -8,24 +8,21 @@ function Header({ onSearch }) {
   const [query, setQuery] = useState('')
   const [searching, setSearching] = useState(false)
   const [suggestions, setSuggestions] = useState([])
+  const [searchExpanded, setSearchExpanded] = useState(false)
   const debounceTimer = useRef(null)
+  const inputRef = useRef(null)
 
   useEffect(() => {
     if (query.trim().length < 2) {
       setSuggestions([])
       return
     }
-
-    // clear previous timer
     clearTimeout(debounceTimer.current)
-
-    // wait 400ms after user stops typing
     debounceTimer.current = setTimeout(async () => {
       const result = await fetch(`https://api.rawg.io/api/games?key=1dd4eaf9b8ca4c46b9b1e5794e348ea3&search=${query}&page_size=5`)
       const data = await result.json()
       setSuggestions(data.results || [])
     }, 400)
-
     return () => clearTimeout(debounceTimer.current)
   }, [query])
 
@@ -46,40 +43,58 @@ function Header({ onSearch }) {
     navigate(`/game/${game.id}`)
   }
 
+  const handleSearchIconClick = () => {
+    setSearchExpanded(true)
+    setTimeout(() => inputRef.current?.focus(), 50) // wait for CSS transition
+  }
+
+  const handleCollapse = () => {
+    setSearchExpanded(false)
+    setQuery('')
+    setSuggestions([])
+  }
+
+  const handleBlur = () => {
+    setTimeout(() => {
+      setSuggestions([])
+      if (!query.trim()) setSearchExpanded(false)
+    }, 150)
+  }
+
   return (
     <div className={styles.header}>
-      <div className={styles.inner}>
+      <div className={`${styles.inner} ${searchExpanded ? styles.searchActive : ''}`}>
         <div className={styles.logo} onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
           <Gamepad2 color="#6c63ff" size={26} />
           <h1>GameVault</h1>
         </div>
-        <div className={styles.searchWrapper}>
+        <div className={`${styles.searchWrapper} ${searchExpanded ? styles.expanded : ''}`}>
           <form className={styles.searchBar} onSubmit={handleSubmit}>
-            <Search size={16} color="#aaa" />
+            <Search size={16} color="#aaa" onClick={!searchExpanded ? handleSearchIconClick : undefined} style={!searchExpanded ? { cursor: 'pointer' } : {}} />
             <input
-                type="text"
-                placeholder={searching ? 'Searching...' : 'Search games...'}
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                disabled={searching}
-                onBlur={() => setTimeout(() => setSuggestions([]), 150)}
-                onFocus={() => {
-                    if (query.trim().length >= 2) {
-                        fetch(`https://api.rawg.io/api/games?key=1dd4eaf9b8ca4c46b9b1e5794e348ea3&search=${query}&page_size=5`)
-                            .then(res => res.json())
-                            .then(data => setSuggestions(data.results || []))
-                    }
-                }}
+              ref={inputRef}
+              type="text"
+              placeholder={searching ? 'Searching...' : 'Search games...'}
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              disabled={searching}
+              onBlur={handleBlur}
+              onFocus={() => {
+                if (query.trim().length >= 2) {
+                  fetch(`https://api.rawg.io/api/games?key=1dd4eaf9b8ca4c46b9b1e5794e348ea3&search=${query}&page_size=5`)
+                    .then(res => res.json())
+                    .then(data => setSuggestions(data.results || []))
+                }
+              }}
             />
+            {searchExpanded && (
+              <X size={16} color="#aaa" style={{ cursor: 'pointer', flexShrink: 0 }} onClick={handleCollapse} />
+            )}
           </form>
           {suggestions.length > 0 && (
             <div className={styles.dropdown}>
               {suggestions.map(game => (
-                <div
-                  key={game.id}
-                  className={styles.suggestion}
-                  onClick={() => handleSuggestionClick(game)}
-                >
+                <div key={game.id} className={styles.suggestion} onClick={() => handleSuggestionClick(game)}>
                   <img src={game.background_image} alt={game.name} className={styles.suggestionImage} />
                   <span>{game.name}</span>
                 </div>
