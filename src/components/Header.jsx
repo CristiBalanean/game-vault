@@ -14,6 +14,7 @@ function Header({ onSearch }) {
   const [searchExpanded, setSearchExpanded] = useState(false)
   const debounceTimer = useRef(null)
   const inputRef = useRef(null)
+  const BACKEND = 'https://game-vault-api-cq77.onrender.com/api/rawg'
 
   const filterAdult = (results) =>
     (results || []).filter(game => !game.tags?.some(tag => ADULT_TAGS.includes(tag.slug)))
@@ -25,7 +26,7 @@ function Header({ onSearch }) {
     }
     clearTimeout(debounceTimer.current)
     debounceTimer.current = setTimeout(async () => {
-      const result = await fetch(`${BACKEND}/games?search=${query}&page_size=5`)
+      const result = await fetch(`${BACKEND}?endpoint=games&search=${query}&page_size=5`)
       const data = await result.json()
       setSuggestions(filterAdult(data.results))
     }, 400)
@@ -87,7 +88,7 @@ function Header({ onSearch }) {
               onBlur={handleBlur}
               onFocus={() => {
                 if (query.trim().length >= 2) {
-                  fetch(`${BACKEND}/games?search=${query}&page_size=5`)
+                  fetch(`${BACKEND}?endpoint=games&search=${query}&page_size=5`)
                     .then(res => res.json())
                     .then(data => setSuggestions(filterAdult(data.results)))
                 }

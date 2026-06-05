@@ -7,7 +7,7 @@ function Layout() {
   const navigate = useNavigate()
 
   const handleSearch = async (query) => {
-    const result = await fetch(`${BACKEND}/games?search=${query}&page_size=1`)
+    const result = await fetch(`${BACKEND}?endpoint=games&search=${query}&page_size=1`)
     const data = await result.json()
     if (data.results.length > 0) {
       navigate(`/game/${data.results[0].id}`)

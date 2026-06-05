@@ -29,6 +29,7 @@ function GamePage() {
     const [storeLinks, setStoreLinks] = useState([])
     const [error, setError] = useState(false)
     const { isInBacklog, toggleGame } = useBacklog()
+    const BACKEND = 'https://game-vault-api-cq77.onrender.com/api/rawg'
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -39,7 +40,7 @@ function GamePage() {
         setStoreLinks([])
         setError(false)
 
-        fetch(`https://game-vault-api-cq77.onrender.com/api/rawg/games/${id}`)
+        fetch(`${BACKEND}?endpoint=games/${id}`)
             .then(res => {
                 if (!res.ok) throw new Error('Failed to fetch')
                 return res.json()
@@ -47,7 +48,7 @@ function GamePage() {
             .then(async data => {
                 setGame(data)
 
-                const storesRes = await fetch(`https://game-vault-api-cq77.onrender.com/api/rawg/games/${id}/stores`)
+                const storesRes = await fetch(`${BACKEND}?endpoint=games/${id}/stores`)
                 const storesData = await storesRes.json()
 
                 if (storesData.results) {
@@ -70,7 +71,7 @@ function GamePage() {
                 }
 
                 try {
-                    const suggestedRes = await fetch(`https://game-vault-api-cq77.onrender.com/api/rawg/games/${id}/game-series?page_size=6`)
+                    const suggestedRes = await fetch(`${BACKEND}?endpoint=games/${id}/game-series&page_size=6`)
                     const suggestedData = await suggestedRes.json()
                     setSimilarGames(suggestedData.results || [])
                 } catch (err) {

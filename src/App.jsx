@@ -30,15 +30,15 @@ function App() {
   const [ordering, setOrdering] = useState('-added')
   const { isInBacklog, toggleGame } = useBacklog()
 
-  const URL = `${BACKEND}/games?page=${page}&ordering=${ordering}&exclude_additions=true&ratings_count=5${selectedGenre ? `&genres=${selectedGenre}` : ''}${selectedPlatform ? `&platforms=${selectedPlatform}` : ''}`
+  const URL = `${BACKEND}?endpoint=games&page=${page}&ordering=${ordering}&exclude_additions=true&ratings_count=5${selectedGenre ? `&genres=${selectedGenre}` : ''}${selectedPlatform ? `&platforms=${selectedPlatform}` : ''}`
   const navigate = useNavigate()
 
   useEffect(() => {
-    fetch(`${BACKEND}/genres`)
+    fetch(`${BACKEND}?endpoint=genres`)
       .then(res => res.json())
       .then(data => setGenres(data.results || []))
 
-    fetch(`${BACKEND}/platforms?ordering=-games_count&page_size=20`)
+    fetch(`${BACKEND}?endpoint=platforms&ordering=-games_count&page_size=20`)
       .then(res => res.json())
       .then(data => setPlatforms(data.results || []))
   }, [])
