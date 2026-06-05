@@ -1,21 +1,22 @@
 # GameVault 🎮
-A responsive web app for discovering and exploring games, built with React. Powered by the [RAWG API](https://rawg.io/apidocs) for game data and the [Steam API](https://store.steampowered.com/api/) for descriptions, screenshots, and system requirements.
 
-> ⚠️ **Work in Progress** — new features are actively being developed. See the roadmap below.
+A responsive web app for discovering and exploring games, built with React. Powered by the [RAWG API](https://rawg.io/apidocs) for game data and the [Steam API](https://store.steampowered.com/api/) for descriptions, screenshots, and system requirements.
 
 ## Features
 
-- Browse games with a randomized ordering on every visit
-- Filter games by genre
+- Browse games with genre, platform, and sort filters
 - Search games with live suggestions as you type
 - View detailed game pages with ratings, genres, platforms, developer info, and release date
 - Game descriptions and screenshots pulled from Steam where available
 - System requirements parsed and displayed in a clean grid
 - Screenshot lightbox — click any screenshot to view fullscreen and scroll through
 - Similar games section on each game page
+- Store links — jump directly to Steam, GOG, Epic, PlayStation Store, and more
+- Personal game backlog — save games and access them from any device visit
 - Loading skeletons for a polished loading experience
-- Pagination to browse through the full game library
+- Error handling with retry on failed requests
 - Adult content filtering
+- Pagination to browse through the full game library
 - Fully responsive — works on desktop and mobile
 
 ## Tech Stack
@@ -68,13 +69,16 @@ Backend runs on [http://localhost:3001](http://localhost:3001).
 ## Roadmap
 
 - [x] Filter games by genre
+- [x] Filter games by platform
+- [x] Sort by rating, popularity, Metacritic score, release date
 - [x] Similar games section on game page
+- [x] Store links on game page
 - [x] Loading skeletons
-- [ ] Game backlog / wishlist
-- [ ] Search results page
-- [ ] Sort by rating, release date, Metacritic score
-- [ ] Platform filter
+- [x] Game backlog / wishlist
+- [x] Error handling with retry
+- [x] Adult content filtering
 - [ ] User accounts and authentication
+- [ ] Cloud-synced game backlog
 - [ ] User ratings
 
 ## API Keys
