@@ -7,8 +7,13 @@ import { useNavigate } from "react-router-dom"
 import { ADULT_TAGS } from './constants.js'
 import useBacklog from './hooks/useBacklog.js'
 
-const orderings = ['-rating', '-added', '-metacritic', '-released']
-const randomOrdering = orderings[Math.floor(Math.random() * orderings.length)]
+const ORDERINGS = [
+  { label: 'Top Rated', value: '-rating' },
+  { label: 'Most Popular', value: '-added' },
+  { label: 'Metacritic', value: '-metacritic' },
+  { label: 'Newest', value: '-released' },
+  { label: 'Oldest', value: 'released' },
+]
 
 function App() {
 
@@ -16,16 +21,23 @@ function App() {
   const [page, setPage] = useState(1)
   const [loading, setLoading] = useState(false)
   const [genres, setGenres] = useState([])
+  const [platforms, setPlatforms] = useState([])
   const [selectedGenre, setSelectedGenre] = useState(null)
+  const [selectedPlatform, setSelectedPlatform] = useState(null)
+  const [ordering, setOrdering] = useState('-added')
   const { isInBacklog, toggleGame } = useBacklog()
 
-  const URL = `https://api.rawg.io/api/games?key=1dd4eaf9b8ca4c46b9b1e5794e348ea3&page=${page}&ordering=${randomOrdering}&exclude_additions=true&ratings_count=5${selectedGenre ? `&genres=${selectedGenre}` : ''}`
+  const URL = `https://api.rawg.io/api/games?key=1dd4eaf9b8ca4c46b9b1e5794e348ea3&page=${page}&ordering=${ordering}&exclude_additions=true&ratings_count=5${selectedGenre ? `&genres=${selectedGenre}` : ''}${selectedPlatform ? `&platforms=${selectedPlatform}` : ''}`
   const navigate = useNavigate()
 
   useEffect(() => {
     fetch('https://api.rawg.io/api/genres?key=1dd4eaf9b8ca4c46b9b1e5794e348ea3')
       .then(res => res.json())
       .then(data => setGenres(data.results || []))
+
+    fetch('https://api.rawg.io/api/platforms?key=1dd4eaf9b8ca4c46b9b1e5794e348ea3&ordering=-games_count&page_size=20')
+      .then(res => res.json())
+      .then(data => setPlatforms(data.results || []))
   }, [])
 
   useEffect(() => {
@@ -50,6 +62,19 @@ function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
+  const handlePlatformSelect = (e) => {
+    const value = e.target.value
+    setSelectedPlatform(value === 'all' ? null : value)
+    setPage(1)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const handleOrderingSelect = (e) => {
+    setOrdering(e.target.value)
+    setPage(1)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   return (
     <div>
       <div className="toolbar">
@@ -57,6 +82,17 @@ function App() {
           <option value="all">All Genres</option>
           {genres.map(genre => (
             <option key={genre.id} value={genre.slug}>{genre.name}</option>
+          ))}
+        </select>
+        <select className="genre-select" onChange={handlePlatformSelect} value={selectedPlatform || 'all'}>
+          <option value="all">All Platforms</option>
+          {platforms.map(platform => (
+            <option key={platform.id} value={platform.id}>{platform.name}</option>
+          ))}
+        </select>
+        <select className="genre-select" onChange={handleOrderingSelect} value={ordering}>
+          {ORDERINGS.map(o => (
+            <option key={o.value} value={o.value}>{o.label}</option>
           ))}
         </select>
       </div>
