@@ -39,7 +39,7 @@ function GamePage() {
         setStoreLinks([])
         setError(false)
 
-        fetch(`https://api.rawg.io/api/games/${id}?key=1dd4eaf9b8ca4c46b9b1e5794e348ea3`)
+        fetch(`https://game-vault-api-cq77.onrender.com/api/rawg/games/${id}`)
             .then(res => {
                 if (!res.ok) throw new Error('Failed to fetch')
                 return res.json()
@@ -47,7 +47,7 @@ function GamePage() {
             .then(async data => {
                 setGame(data)
 
-                const storesRes = await fetch(`https://api.rawg.io/api/games/${id}/stores?key=1dd4eaf9b8ca4c46b9b1e5794e348ea3`)
+                const storesRes = await fetch(`https://game-vault-api-cq77.onrender.com/api/rawg/games/${id}/stores`)
                 const storesData = await storesRes.json()
 
                 if (storesData.results) {
@@ -70,7 +70,7 @@ function GamePage() {
                 }
 
                 try {
-                    const suggestedRes = await fetch(`https://api.rawg.io/api/games/${id}/game-series?key=1dd4eaf9b8ca4c46b9b1e5794e348ea3&page_size=6`)
+                    const suggestedRes = await fetch(`https://game-vault-api-cq77.onrender.com/api/rawg/games/${id}/game-series?page_size=6`)
                     const suggestedData = await suggestedRes.json()
                     setSimilarGames(suggestedData.results || [])
                 } catch (err) {

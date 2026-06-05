@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import { useState, useEffect, useRef } from 'react'
 import { ADULT_TAGS } from '../constants.js'
 
+const BACKEND = 'https://game-vault-api-cq77.onrender.com/api/rawg'
+
 function Header({ onSearch }) {
   const navigate = useNavigate()
   const [query, setQuery] = useState('')
@@ -23,7 +25,7 @@ function Header({ onSearch }) {
     }
     clearTimeout(debounceTimer.current)
     debounceTimer.current = setTimeout(async () => {
-      const result = await fetch(`https://api.rawg.io/api/games?key=1dd4eaf9b8ca4c46b9b1e5794e348ea3&search=${query}&page_size=5`)
+      const result = await fetch(`${BACKEND}/games?search=${query}&page_size=5`)
       const data = await result.json()
       setSuggestions(filterAdult(data.results))
     }, 400)
@@ -85,7 +87,7 @@ function Header({ onSearch }) {
               onBlur={handleBlur}
               onFocus={() => {
                 if (query.trim().length >= 2) {
-                  fetch(`https://api.rawg.io/api/games?key=1dd4eaf9b8ca4c46b9b1e5794e348ea3&search=${query}&page_size=5`)
+                  fetch(`${BACKEND}/games?search=${query}&page_size=5`)
                     .then(res => res.json())
                     .then(data => setSuggestions(filterAdult(data.results)))
                 }

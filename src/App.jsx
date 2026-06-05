@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom"
 import { ADULT_TAGS } from './constants.js'
 import useBacklog from './hooks/useBacklog.js'
 
+const BACKEND = 'https://game-vault-api-cq77.onrender.com/api/rawg'
+
 const ORDERINGS = [
   { label: 'Top Rated', value: '-rating' },
   { label: 'Most Popular', value: '-added' },
@@ -28,15 +30,15 @@ function App() {
   const [ordering, setOrdering] = useState('-added')
   const { isInBacklog, toggleGame } = useBacklog()
 
-  const URL = `https://api.rawg.io/api/games?key=1dd4eaf9b8ca4c46b9b1e5794e348ea3&page=${page}&ordering=${ordering}&exclude_additions=true&ratings_count=5${selectedGenre ? `&genres=${selectedGenre}` : ''}${selectedPlatform ? `&platforms=${selectedPlatform}` : ''}`
+  const URL = `${BACKEND}/games?page=${page}&ordering=${ordering}&exclude_additions=true&ratings_count=5${selectedGenre ? `&genres=${selectedGenre}` : ''}${selectedPlatform ? `&platforms=${selectedPlatform}` : ''}`
   const navigate = useNavigate()
 
   useEffect(() => {
-    fetch('https://api.rawg.io/api/genres?key=1dd4eaf9b8ca4c46b9b1e5794e348ea3')
+    fetch(`${BACKEND}/genres`)
       .then(res => res.json())
       .then(data => setGenres(data.results || []))
 
-    fetch('https://api.rawg.io/api/platforms?key=1dd4eaf9b8ca4c46b9b1e5794e348ea3&ordering=-games_count&page_size=20')
+    fetch(`${BACKEND}/platforms?ordering=-games_count&page_size=20`)
       .then(res => res.json())
       .then(data => setPlatforms(data.results || []))
   }, [])
