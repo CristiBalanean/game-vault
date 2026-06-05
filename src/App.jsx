@@ -5,6 +5,7 @@ import SkeletonCard from "./components/SkeletonCard.jsx"
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { ADULT_TAGS } from './constants.js'
+import useBacklog from './hooks/useBacklog.js'
 
 const orderings = ['-rating', '-added', '-metacritic', '-released']
 const randomOrdering = orderings[Math.floor(Math.random() * orderings.length)]
@@ -16,6 +17,7 @@ function App() {
   const [loading, setLoading] = useState(false)
   const [genres, setGenres] = useState([])
   const [selectedGenre, setSelectedGenre] = useState(null)
+  const { isInBacklog, toggleGame } = useBacklog()
 
   const URL = `https://api.rawg.io/api/games?key=1dd4eaf9b8ca4c46b9b1e5794e348ea3&page=${page}&ordering=${randomOrdering}&exclude_additions=true&ratings_count=5${selectedGenre ? `&genres=${selectedGenre}` : ''}`
   const navigate = useNavigate()
@@ -71,6 +73,15 @@ function App() {
                 rating={game.rating}
                 image={game.background_image}
                 onClick={() => navigate(`/game/${game.id}`)}
+                inBacklog={isInBacklog(game.id)}
+                onToggleBacklog={() => toggleGame({
+                  id: game.id,
+                  name: game.name,
+                  background_image: game.background_image,
+                  genres: game.genres,
+                  platforms: game.platforms,
+                  rating: game.rating
+                })}
               />
             ))
         }

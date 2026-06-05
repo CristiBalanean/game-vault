@@ -92,6 +92,30 @@
     flex-shrink: 0;
 }
 
+.right {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.backlogLink {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid #444;
+    color: #aaa;
+    font-size: 13px;
+    transition: border-color 0.2s, color 0.2s;
+}
+
+.backlogLink:hover {
+    border-color: #6c63ff;
+    color: #fff;
+}
+
 @media (max-width: 768px) {
     .searchWrapper {
         flex: 0;

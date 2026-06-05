@@ -1,1 +1,1 @@
-export const ADULT_TAGS = ['nsfw', 'adult', 'hentai', 'nudity', 'sexual-content', '18+', 'eroge', 'porn']
+export const ADULT_TAGS = ['hentai', 'eroge', 'porn', 'nsfw', 'adult-only', 'sexual-content', 'xxx']

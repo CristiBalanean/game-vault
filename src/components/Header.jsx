@@ -1,5 +1,5 @@
 import styles from './Header.module.css'
-import { Gamepad2, Search, X } from 'lucide-react'
+import { Gamepad2, Search, X, Bookmark } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { useState, useEffect, useRef } from 'react'
 import { ADULT_TAGS } from '../constants.js'
@@ -106,7 +106,12 @@ function Header({ onSearch }) {
             </div>
           )}
         </div>
-        <div className={styles.right}></div>
+        <div className={styles.right}>
+          <div className={styles.backlogLink} onClick={() => navigate('/backlog')}>
+            <Bookmark size={16} color="#aaa" />
+            <span>My Backlog</span>
+          </div>
+        </div>
       </div>
     </div>
   )

@@ -2,6 +2,8 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import styles from './GamePage.module.css'
 import GamePageSkeleton from './GamePageSkeleton.jsx'
+import useBacklog from '../hooks/useBacklog.js'
+import { Bookmark } from 'lucide-react'
 
 function GamePage() {
     const { id } = useParams()
@@ -10,6 +12,7 @@ function GamePage() {
     const [steamData, setSteamData] = useState(null)
     const [selectedScreenshot, setSelectedScreenshot] = useState(null)
     const [similarGames, setSimilarGames] = useState([])
+    const { isInBacklog, toggleGame } = useBacklog()
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -85,6 +88,19 @@ function GamePage() {
         game.platforms?.find(p => p.platform.name === 'PC')?.requirements?.minimum
     )
 
+    const saved = isInBacklog(parseInt(id))
+
+    const handleToggle = () => {
+        toggleGame({
+            id: parseInt(id),
+            name: game.name,
+            background_image: game.background_image,
+            genres: game.genres,
+            platforms: game.platforms,
+            rating: game.rating
+        })
+    }
+
     return (
         <div className={styles.page}>
             <div className={styles.leftColumn}>
@@ -114,7 +130,16 @@ function GamePage() {
             </div>
 
             <div className={styles.content}>
-                <h1 className={styles.title}>{game.name}</h1>
+                <div className={styles.titleRow}>
+                    <h1 className={styles.title}>{game.name}</h1>
+                    <button
+                        className={`${styles.bookmarkBtn} ${saved ? styles.bookmarkActive : ''}`}
+                        onClick={handleToggle}
+                    >
+                        <Bookmark size={20} fill={saved ? '#6c63ff' : 'none'} />
+                        <span>{saved ? 'Saved' : 'Save'}</span>
+                    </button>
+                </div>
                 <div className={styles.ratingRow}>
                     <span className={styles.rating}>⭐ {game.rating || 'N/A'}</span>
                     {game.metacritic && <span className={styles.metacritic}>Metacritic: {game.metacritic}</span>}

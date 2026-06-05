@@ -6,6 +6,7 @@ import GamePage from './components/GamePage.jsx'
 import './index.css'
 import Layout from './components/Layout.jsx'
 import NotFound from './components/NotFound.jsx'
+import Backlog from './components/Backlog.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -15,6 +16,7 @@ createRoot(document.getElementById('root')).render(
           <Route path="/" element={<App />} />
           <Route path="/game/:id" element={<GamePage />} />
           <Route path="/not-found" element={<NotFound />} />
+          <Route path="/backlog" element={<Backlog />} />
         </Route>
       </Routes>
     </BrowserRouter>

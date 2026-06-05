@@ -15,11 +15,46 @@
     transition-delay: 0.1s;
 }
 
+.imageWrapper {
+    position: relative;
+}
+
 .image {
     width: 100%;
     height: 240px;
     object-fit: cover;
     display: block;
+}
+
+.imagePlaceholder {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+}
+
+.bookmarkBtn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.6);
+    border: none;
+    border-radius: 6px;
+    padding: 6px;
+    cursor: pointer;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.bookmarkActive {
+    background: rgba(108, 99, 255, 0.3);
+    color: #6c63ff;
 }
 
 .info {
@@ -62,16 +97,6 @@
     color: gold;
     font-size: 14px;
     font-weight: bold;
-}
-
-.imagePlaceholder {
-    width: 100%;
-    aspect-ratio: 16/9;
-    background: #1a1a1a;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 32px;
 }
 
 @media (max-width: 768px) {
