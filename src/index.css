@@ -85,6 +85,32 @@ body {
     border-color: #6c63ff;
 }
 
+.error-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 80px 20px;
+    color: #aaa;
+    font-size: 18px;
+}
+
+.error-state button {
+    background: #6c63ff;
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 10px 24px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.error-state button:hover {
+    background: #5a52d5;
+}
+
 @media (max-width: 768px) {
     .grid {
         grid-template-columns: repeat(2, 1fr);

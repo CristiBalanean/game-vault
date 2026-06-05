@@ -35,3 +35,21 @@
 .empty button:hover {
     background: #5a52d5;
 }
+
+.backBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: transparent;
+    border: none;
+    color: #aaa;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 6px 0;
+    margin-bottom: 8px;
+    transition: color 0.2s;
+}
+
+.backBtn:hover {
+    color: #fff;
+}

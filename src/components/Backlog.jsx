@@ -2,7 +2,7 @@ import styles from './Backlog.module.css'
 import Card from './Card.jsx'
 import { useNavigate } from 'react-router-dom'
 import useBacklog from '../hooks/useBacklog.js'
-import { Bookmark } from 'lucide-react'
+import { Bookmark, ChevronLeft } from 'lucide-react'
 
 function Backlog() {
     const navigate = useNavigate()
@@ -10,6 +10,9 @@ function Backlog() {
 
     return (
         <div className={styles.page}>
+            <button className={styles.backBtn} onClick={() => navigate(-1)}>
+                <ChevronLeft size={18} /> Back
+            </button>
             <h1 className={styles.title}>My Backlog</h1>
 
             {backlog.length === 0 ? (

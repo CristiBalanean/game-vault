@@ -156,7 +156,21 @@
         display: none;
     }
 
-    .right {
+    .searchActive .right {
         display: none;
+    }
+
+    .right {
+        display: flex;
+        flex: 0;
+    }
+
+    .backlogLink span {
+        display: none;
+    }
+
+    .backlogLink {
+        border: none;
+        padding: 6px;
     }
 }

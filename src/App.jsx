@@ -20,6 +20,7 @@ function App() {
   const [games, setGames] = useState([])
   const [page, setPage] = useState(1)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
   const [genres, setGenres] = useState([])
   const [platforms, setPlatforms] = useState([])
   const [selectedGenre, setSelectedGenre] = useState(null)
@@ -43,14 +44,21 @@ function App() {
   useEffect(() => {
       const fetchData = async () => {
           setLoading(true)
+          setError(false)
           setGames([])
-          const result = await fetch(URL)
-          const data = await result.json()
-          const filtered = (data.results || []).filter(game =>
-              !game.tags?.some(tag => ADULT_TAGS.includes(tag.slug))
-          )
-          setGames(filtered)
-          setLoading(false)
+          try {
+              const result = await fetch(URL)
+              if (!result.ok) throw new Error('Failed to fetch')
+              const data = await result.json()
+              const filtered = (data.results || []).filter(game =>
+                  !game.tags?.some(tag => ADULT_TAGS.includes(tag.slug))
+              )
+              setGames(filtered)
+          } catch (err) {
+              setError(true)
+          } finally {
+              setLoading(false)
+          }
       }
       fetchData()
   }, [URL])
@@ -97,31 +105,39 @@ function App() {
         </select>
       </div>
 
-      <div className="grid">
-        {loading
-          ? Array.from({ length: 20 }).map((_, i) => <SkeletonCard key={i} />)
-          : games.map(game => (
-              <Card
-                key={game.id}
-                title={game.name}
-                genre={game.genres?.[0]?.name}
-                platform={game.platforms?.[0]?.platform.name}
-                rating={game.rating}
-                image={game.background_image}
-                onClick={() => navigate(`/game/${game.id}`)}
-                inBacklog={isInBacklog(game.id)}
-                onToggleBacklog={() => toggleGame({
-                  id: game.id,
-                  name: game.name,
-                  background_image: game.background_image,
-                  genres: game.genres,
-                  platforms: game.platforms,
-                  rating: game.rating
-                })}
-              />
-            ))
-        }
-      </div>
+      {error ? (
+        <div className="error-state">
+          <p>Something went wrong. Please try again.</p>
+          <button onClick={() => setError(false) || setPage(p => p)}>Retry</button>
+        </div>
+      ) : (
+        <div className="grid">
+          {loading
+            ? Array.from({ length: 20 }).map((_, i) => <SkeletonCard key={i} />)
+            : games.map(game => (
+                <Card
+                  key={game.id}
+                  title={game.name}
+                  genre={game.genres?.[0]?.name}
+                  platform={game.platforms?.[0]?.platform.name}
+                  rating={game.rating}
+                  image={game.background_image}
+                  onClick={() => navigate(`/game/${game.id}`)}
+                  inBacklog={isInBacklog(game.id)}
+                  onToggleBacklog={() => toggleGame({
+                    id: game.id,
+                    name: game.name,
+                    background_image: game.background_image,
+                    genres: game.genres,
+                    platforms: game.platforms,
+                    rating: game.rating
+                  })}
+                />
+              ))
+          }
+        </div>
+      )}
+
       <div className="load-more">
         <button onClick={() => { setPage(prev => prev - 1); window.scrollTo({ top: 0, behavior: 'smooth' }) }} disabled={page === 1 || loading}>
             ← Previous
